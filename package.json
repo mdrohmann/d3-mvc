@@ -1,0 +1,22 @@
+{
+    "name": "sstexa-visualization",
+    "version": "0.1.0",
+    "main": "./chart.js",
+    "browserify": {
+        "transform": [ "browserify-shim" ]
+    },
+    "browserify-shim": {
+        "jsdom": "global:jsdom",
+        "d3": "global:d3",
+        "expect.js": "global:expect"
+    },
+    "devDependencies" : {
+        "expect.js": "~0.3.1",
+        "jsdom": "~0.5.7",
+        "browserify": ">=5.0",
+        "browserify-shim": ">=3.7",
+        "mocha": ">=1.0",
+        "d3": ">=3.4",
+        "promise": ">=6.0"
+    }
+}

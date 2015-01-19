@@ -1,0 +1,22 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+</head>
+<body>
+  <div id="mocha"></div>
+  <div id="test"></div>
+
+  <script src="../node_modules/d3/d3.min.js"></script>
+  <script src="../node_modules/mocha/mocha.js"></script>
+  <script src="../node_modules/expect.js/index.js"></script>
+  <script type="text/javascript" src="../node_modules/blanket/src/blanket.js" data-cover-adapter="../node_modules/blanket/dist/mocha/blanket_mocha.min.js"></script>
+  <script>mocha.setup('bdd');</script>
+  <script src="./browser.bundle.js" data-cover></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.run();
+  </script>
+
+</body>

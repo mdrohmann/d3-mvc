@@ -1,0 +1,8 @@
+/node_modules/
+/build/
+*~
+*.bak
+*.pyc
+*.sw[onp]
+bundle.js
+test/browser.bundle.js
