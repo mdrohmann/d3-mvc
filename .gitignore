@@ -6,3 +6,4 @@
 *.sw[onp]
 bundle.js
 test/browser.bundle.js
+tests.xml
