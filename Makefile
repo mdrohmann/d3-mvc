@@ -1,8 +1,11 @@
-.PHONY: all test test-xml
+.PHONY: all test test-xml docs
 
 BUNDLE_SOURCES = src/*.js src/*/*.js
 
 all: bundle.js
+
+docs:
+	make -C docs/ html
 
 bundle.js: src/d3mvc.js $(BUNDLE_SOURCES)
 	browserify $< -o $@
