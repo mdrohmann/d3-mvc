@@ -141,7 +141,7 @@ describe('d3mvc', function() {
             expect(view._impl.axis.height()).to.eql(0);
             done();
         });
-        it('should throw exceptions for too many plots', function(done) {
+        it('should throw exceptions for too many or too few plots', function(done) {
             var view = default_init(too_many_x_values)[0];
             expect(function() { view.type('lines2d'); })
               .to.throwException(function (e) {
@@ -153,7 +153,7 @@ describe('d3mvc', function() {
                   expect(e.name).to.eql('ModelFormatError');
               });
             var view3 = default_init(no_model)[0];
-            expect(function() { view2.type('lines2d'); })
+            expect(function() { view3.type('lines2d'); })
               .to.throwException(function (e) {
                   expect(e.name).to.eql('ModelFormatError');
               });
