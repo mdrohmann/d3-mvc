@@ -23,7 +23,9 @@ var two_y_axes_one_x_axis = [{}, {"ydesc": "other_y"}];
 var two_x_axes_two_y_axes = [{}, {"xdesc": "other_x", "ydesc": "other_y"}];
 
 var too_many_x_values = [{}, {xdesc: 'x2'}, {xdesc: 'x3'}];
-var too_many_y_values = [{}, {xdesc: 'x2'}, {xdesc: 'x3'}];
+var too_many_y_values = [{}, {ydesc: 'x2'}, {ydesc: 'x3'}];
+
+var no_model = [];
 
 function default_init(model) {
     var test_div = global_window.document.getElementById('test');
@@ -146,6 +148,11 @@ describe('d3mvc', function() {
                   expect(e.name).to.eql('ModelFormatError');
               });
             var view2 = default_init(too_many_y_values)[0];
+            expect(function() { view2.type('lines2d'); })
+              .to.throwException(function (e) {
+                  expect(e.name).to.eql('ModelFormatError');
+              });
+            var view3 = default_init(no_model)[0];
             expect(function() { view2.type('lines2d'); })
               .to.throwException(function (e) {
                   expect(e.name).to.eql('ModelFormatError');
