@@ -21,3 +21,4 @@ test:
 
 test-xml:
 	mocha --ui exports --reporter xunit 'test/**/*.test.js' > tests.xml
+	istanbul cover --report cobertura _mocha -- --reporter spec 'test/**/*.test.js'
