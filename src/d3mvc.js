@@ -5,7 +5,7 @@ var d3mvc_View = require('./view.js');
 
 function make_view(model, container_id) {
   var container = d3.select(container_id);
-  if (container === undefined) {
+  if (container.size() !== 1) {
     throw {
       "name": "ValueError",
       "message": "The id #" + container_id + " does not exist in the DOM"
