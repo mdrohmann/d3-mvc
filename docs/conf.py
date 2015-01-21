@@ -50,6 +50,12 @@ master_doc = 'index'
 project = u'd3mvc'
 copyright = u'2015, Martin Drohmann'
 
+rst_epilog = """
+.. |project| replace:: `d3-mvc`
+"""
+
+primary_domain = u'js'
+
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.

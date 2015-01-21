@@ -11,6 +11,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   installation
+   getting_started
+   examples
+   api
 
 
 Indices and tables

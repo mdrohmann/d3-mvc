@@ -1,0 +1,13 @@
+[{
+        "xdesc": "X axis description",
+        "ydesc": "Y axis description",
+        "xdomain": [0, 10],
+        "ydomain": [-10, 10],
+        "view": {
+            "type": "lines"
+        },
+        "ids": [],
+        "data": []
+}]
+
+
