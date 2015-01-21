@@ -1,4 +1,4 @@
-.PHONY: all test test-xml docs
+.PHONY: all test test-xml test-coverage docs
 
 BUNDLE_SOURCES = src/*.js src/*/*.js
 
@@ -21,4 +21,6 @@ test:
 
 test-xml:
 	mocha --ui exports --reporter xunit 'test/**/*.test.js' > tests.xml
+
+test-coverage:
 	istanbul cover --report cobertura _mocha -- --reporter spec 'test/**/*.test.js'
