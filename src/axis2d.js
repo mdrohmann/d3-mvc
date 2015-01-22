@@ -258,8 +258,18 @@ Axis2d.prototype.compute_axes = function() {
 };
 
 Axis2d.prototype.margin = function(margin) {
+    if (this.extra_margin !== undefined) {
+        extra_margin = this.extra_margin();
+    } else {
+        extra_margin = {top: 0, left: 0, right: 0, bottom: 0};
+    }
     if (!arguments.length) {
-        return this.margin_;
+        var m = this.margin_;
+        var em = extra_margin;
+        return {
+            top: m.top + em.top, left: m.left + em.left,
+            right: m.right + em.right, bottom: m.bottom + em.bottom
+        };
     }
     this.margin_ = margin;
     return this;
@@ -293,6 +303,10 @@ Axis2d.prototype.draw_axis_label = function(classnames, config) {
 };
 
 Axis2d.prototype.update = function() {
+    console.log('This needs to be implemented yet!');
+};
+
+Axis2d.prototype.display = function() {
     var svg = this.container.selectAll('svg')
         .data([1]);
 
