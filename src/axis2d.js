@@ -303,7 +303,7 @@ Axis2d.prototype.draw_axis_label = function(classnames, config) {
 };
 
 Axis2d.prototype.update = function() {
-    console.log('This needs to be implemented yet!');
+    console.warn('This needs to be implemented yet!');
 };
 
 Axis2d.prototype.display = function() {
