@@ -77,12 +77,12 @@ Axis2d.prototype.adapter = function() {
 
 Axis2d.prototype.height = function() {
     var margin = this.margin();
-    return Math.max(this.view.height() - margin.top - margin.bottom, 0);
+    return Math.max(this.view.height() - margin.top - margin.bottom, 1);
 };
 
 Axis2d.prototype.width = function() {
     var margin = this.margin();
-    return Math.max(this.view.width() - margin.left - margin.right, 0);
+    return Math.max(this.view.width() - margin.left - margin.right, 1);
 };
 
 /* This method needs to be executed, when

@@ -1,3 +1,4 @@
+var d3 = require('d3');
 var d3mvc = require('../../src/d3mvc.js');
 var global_window = require('../minidom.js');
 var expect = require('expect.js');
@@ -98,7 +99,7 @@ describe('d3mvc', function() {
             expect(view.width()).to.eql(100);
             expect(view.height()).to.eql(100);
             expect(view._impl.axis.width()).to.eql(30);
-            expect(view._impl.axis.height()).to.eql(0);
+            expect(view._impl.axis.height()).to.eql(1);
             done();
         });
         it('should generate two y axes and one x axis', function(done) {
@@ -117,7 +118,7 @@ describe('d3mvc', function() {
             expect(view._impl.axis.margin()).to.eql({'top': 10, 'bottom': 50, 'left': 60, 'right': 60});
             expect(view.width()).to.eql(100);
             expect(view.height()).to.eql(100);
-            expect(view._impl.axis.width()).to.eql(0);
+            expect(view._impl.axis.width()).to.eql(1);
             expect(view._impl.axis.height()).to.eql(40);
             done();
         });
@@ -135,10 +136,11 @@ describe('d3mvc', function() {
                 ".y.axis");
             expect(xtitle_dom).to.have.length(2);
             expect(view._impl.axis.margin()).to.eql({'top': 10, 'bottom': 100, 'left': 60, 'right': 60});
+//            expect(view._impl.axis.adapter().xscale(1)).to.be.a(d3.svg.scale);
             expect(view.width()).to.eql(100);
             expect(view.height()).to.eql(100);
-            expect(view._impl.axis.width()).to.eql(0);
-            expect(view._impl.axis.height()).to.eql(0);
+            expect(view._impl.axis.width()).to.eql(1);
+            expect(view._impl.axis.height()).to.eql(1);
             done();
         });
         it('should throw exceptions for too many or too few plots', function(done) {
