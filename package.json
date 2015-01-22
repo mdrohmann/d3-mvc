@@ -1,7 +1,7 @@
 {
-    "name": "sstexa-visualization",
+    "name": "d3mvc",
     "version": "0.1.0",
-    "main": "./chart.js",
+    "main": "./bundle.js",
     "browserify": {
         "transform": [ "browserify-shim" ]
     },
