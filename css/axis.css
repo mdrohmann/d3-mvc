@@ -1,0 +1,19 @@
+svg {
+    font: 10px sans-serif;
+}
+
+.axis path, .axis line {
+    fill: none;
+    shape-rendering: crispedges;
+    stroke: black;
+    stroke-linecap: round;
+    stroke-width: 2px;
+}
+
+.axis .tick line {
+    stroke-width: 1px;
+}
+
+svg circle {
+    fill: red;
+}

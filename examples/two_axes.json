@@ -5,6 +5,12 @@
         "xdomain": [0, 10],
         "ydomain": [-10, 10],
         "data": [[0, 1, 2],[2,1,3]]
+},{
+        "name": "other plot",
+        "xdesc": "X axis description",
+        "ydesc": "other y axis",
+        "ydomain": [0, 10],
+        "data": [[0, 1, 2],[2,1,3]]
 }]
 
 

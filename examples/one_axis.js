@@ -1,7 +1,5 @@
-var d3mvc = require('d3mvc');
-
-d3mvc.read_json_cached('./axis.json')
-     .then(function(model) {
-         var view = d3mvc.make_view(model, '#one_axis');
-         view.show();
-     });
+d3.json("./axis.json", function(one_axis) {
+        var view = d3mvc.make_view(one_axis, '#one_axis');
+        view.type('lines2d')
+            .show();
+});

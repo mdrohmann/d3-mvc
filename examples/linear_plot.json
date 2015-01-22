@@ -1,0 +1,8 @@
+[{
+        "name": "Linear plot",
+        "xdesc": "X axis description",
+        "ydesc": "Y axis description",
+        "data": [[0, 1, 2],[2, 1, 3]]
+}]
+
+
