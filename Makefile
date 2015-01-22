@@ -8,7 +8,7 @@ docs:
 	make -C docs/ html
 
 bundle.js: src/d3mvc.js $(BUNDLE_SOURCES)
-	browserify $< -o $@
+	browserify $< --standalone d3mvc -o $@
 
 test/browser.bundle.js: test/browsertest.js test/*/*.test.js
 	browserify $< -o $@
