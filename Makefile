@@ -19,6 +19,9 @@ browsertest: test/browser.bundle.js
 test:
 	mocha --ui exports --reporter spec 'test/**/*.test.js'
 
+test-nocolor:
+	mocha --ui exports -C --reporter min 'test/**/*.test.js'
+
 test-xml:
 	mocha --ui exports --reporter xunit 'test/**/*.test.js' > tests.xml
 
