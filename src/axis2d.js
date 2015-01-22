@@ -4,6 +4,8 @@ var String = require('./utils/string_extension.js');
 
 function ModelAdapter2d(model) {
     this.model = model;
+    this.xscales_ = [];
+    this.yscales_ = [];
 }
 
 ModelAdapter2d.prototype = {};
@@ -25,24 +27,28 @@ ModelAdapter2d.prototype.y = function(i) {
     }
 };
 ModelAdapter2d.prototype.xscale = function(i, scale) {
-    var xscales;
-    if (xscales === undefined) {
-        xscales = [];
+    if (arguments.length === 1) {
+        xscale = this.xscales_[i];
+        if (xscale === undefined) {
+            return function(d) { return []; };
+        }
+        else {
+            return xscale;
+        }
     }
-    if (arguments.length == 1) {
-        return xscales[i];
-    }
-    xscales[i] = scale;
+    this.xscales_[i] = scale;
 };
 ModelAdapter2d.prototype.yscale = function(i, scale) {
-    var yscales;
-    if (yscales === undefined) {
-        yscales = [];
-    }
     if (arguments.length == 1) {
-        return yscales[i];
+        yscale = this.yscales_[i];
+        if (yscale === undefined) {
+            return function(d) { return []; };
+        }
+        else {
+            return yscale;
+        }
     }
-    yscales[i] = scale;
+    this.yscales_[i] = scale;
 };
 ModelAdapter2d.prototype.xdesc = function(i) {
     var alternative_xdesc = this.model[0].xdesc || 'x';
@@ -58,6 +64,18 @@ ModelAdapter2d.prototype.xdomain = function(i) {
 ModelAdapter2d.prototype.ydomain = function(i) {
     return this.model[i].ydomain || d3.extent(this.y(i));
 };
+ModelAdapter2d.prototype.data = function() {
+    var dat = [];
+    for (var i=0; i < this.model.length; ++i) {
+        dat.push({
+            xdesc: this.xdesc(i), ydesc: this.ydesc(i),
+            name: this.name(i),
+            x: this.x(i), y: this.y(i),
+            xscale: this.xscale(i), yscale: this.yscale(i)
+        });
+    }
+    return dat;
+};
 
 function Axis2d(view) {
     this.view = view;
@@ -68,11 +86,10 @@ function Axis2d(view) {
 
 Axis2d.prototype = {};
 Axis2d.prototype.adapter = function() {
-    var adapter;
-    if (adapter === undefined || adapter.model !== this.model) {
-        adapter = new ModelAdapter2d(this.model);
+    if (this.adapter_ === undefined || this.adapter_.model !== this.model) {
+        this.adapter_ = new ModelAdapter2d(this.model);
     }
-    return adapter;
+    return this.adapter_;
 };
 
 Axis2d.prototype.height = function() {
@@ -120,8 +137,8 @@ Axis2d.prototype.compute_axes = function() {
                 xdomain_tmp.concat(xdescs[xdesc].domain));
         } else {
             xdescs[xdesc] = {};
-            xdescs[xdesc].indices = xdomain_tmp;
-            xdescs[xdesc].domain = [mi];
+            xdescs[xdesc].indices = [mi];
+            xdescs[xdesc].domain = xdomain_tmp;
         }
         if (ydesc in ydescs) {
             ydescs[ydesc].indices.push(mi);
@@ -129,8 +146,8 @@ Axis2d.prototype.compute_axes = function() {
                 ydomain_tmp.concat(ydescs[ydesc].domain));
         } else {
             ydescs[ydesc] = {};
-            ydescs[ydesc].indices = ydomain_tmp;
-            ydescs[ydesc].domain = [mi];
+            ydescs[ydesc].indices = [mi];
+            ydescs[ydesc].domain = ydomain_tmp;
         }
     }
     var xlabels = Object.keys(xdescs);
@@ -181,7 +198,7 @@ Axis2d.prototype.compute_axes = function() {
         var ydesc = ydescs[yl];
         yscales[i]
             .domain(ydesc.domain)
-            .range([0, th.width()]);
+            .range([0, th.height()]);
         ydesc.indices.map(function (index) {
             th.adapter().yscale(index, yscales[i]);
         });
@@ -226,7 +243,7 @@ Axis2d.prototype.compute_axes = function() {
     if (ylabels.length === 2) {
         ylabel_config.push({
             label: ylabels[1],
-            transformation: 'translate(0, ' + this.width() + ')',
+            transformation: 'translate(' + this.width() + ', 0)',
             labelpos: {
                 x: 0.5 * this.height(), y: -35,
                 dx: 0, dy: '-.71em',
