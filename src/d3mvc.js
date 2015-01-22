@@ -2,7 +2,7 @@ var d3 = require('d3');
 var d3mvc_View = require('./view.js');
 
 var d3mvc = {
-    version: '0.1'
+    version: '0.2.0'
 };
 
 function make_view(model, container_id) {
