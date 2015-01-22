@@ -1,14 +1,16 @@
-var axis = require('./axis.js');
 var d3 = require('d3');
 var d3mvc_View = require('./view.js');
 
+var d3mvc = {
+    version: '0.1'
+};
 
 function make_view(model, container_id) {
   var container = d3.select(container_id);
   if (container.size() !== 1) {
     throw {
       "name": "ValueError",
-      "message": "The id #" + container_id + " does not exist in the DOM"
+      "message": "The selector " + container_id + " does not exist in the DOM"
     };
   }
 
@@ -16,7 +18,9 @@ function make_view(model, container_id) {
   return view;
 }
 
-module.exports = {
-  "make_view": make_view,
-  "View": d3mvc_View
-};
+d3mvc.make_view = make_view;
+d3mvc.View = d3mvc_View;
+
+module.exports = d3mvc;
+
+/* vim: set sw=4: */
