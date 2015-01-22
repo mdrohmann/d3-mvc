@@ -3,7 +3,6 @@ var Lines2dView = require('./lines2d.js');
 var d3 = require('d3');
 
 
-
 function Discrete2dView() {
     throw {
         name: "NotimplementedError"
@@ -63,7 +62,7 @@ View.prototype = {
     },
 
     height: function() {
-        var w = this.width();
+        var w = Math.min(100, this.width());
         return Math.max(parseInt(this.container.style('height'), 10) || 100, w);
     }
 };
