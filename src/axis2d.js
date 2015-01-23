@@ -154,15 +154,16 @@ Axis2d.prototype.compute_axes = function() {
     if (xlabels.length === 2) {
         xlabel_config.push({
             label: xlabels[1],
-            transformation: 'translate(0, ' + this.height() + ')',
+            transformation: 'translate(0, ' + (this.height() + 40) + ')',
             labelpos: {
-                x: 0.5 * this.width(), y: 85,
-                dx: 0, dy: 0,
+                x: 0.5 * this.width(), y: 25,
+                dx: 0, dy: '.71em',
                 transformation: null,
                 anchor: 'middle'
             },
             axis: xAxis[1].orient('bottom')
         });
+        xlabel_config[0].labelpos.y = 25;
     }
     if (ylabels.length === 2) {
         ylabel_config.push({
