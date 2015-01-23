@@ -42,7 +42,7 @@ Scatter2dView.prototype.display = function () {
     // enter
     var scatters_update_enter = scatters.enter()
       .append('circle')
-        .attr('class', 'circle')
+        .attr('class', 'circle');
 
     // update and enter
     scatters_update_enter
