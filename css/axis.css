@@ -16,10 +16,9 @@ svg {
 
 path.line {
     fill: none;
-    stroke: black;
     stroke-width: 2px;
 }
 
 svg circle {
-    fill: red;
+    fill: inherit;
 }

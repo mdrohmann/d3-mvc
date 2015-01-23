@@ -1,16 +1,23 @@
 var d3 = require('d3');
 
-function Scatter2dView(view) {
+function Scatter2dView(view, configuration) {
     this.view = view;
     this.model = view.model;
+    this.configure(configuration);
 }
 
 Scatter2dView.prototype = {};
+
+Scatter2dView.prototype.configure = function(configuration) {
+    this.color = configuration.color || this.view.color_scale();
+};
 
 Scatter2dView.prototype.display = function () {
     this.view.axis.update();
     var svg = this.view.axis.draw_area;
     var adapter = this.view.adapter();
+    var color = this.color;
+    color.domain(this.view.get_names());
 
     var lines = svg.selectAll('.circle_container')
         .data(adapter.data(), function(d) { return d.name; });
@@ -19,7 +26,8 @@ Scatter2dView.prototype.display = function () {
     // enter
     var lines_enter_update = lines.enter()
       .append('g')
-        .attr('class', function(d) { return 'circle_container ' + d.name; });
+        .attr('class', function(d) { return 'circle_container ' + d.name; })
+        .style('fill', function (d) { return color(d.name); });
 
     // update not necessary
 
@@ -34,7 +42,7 @@ Scatter2dView.prototype.display = function () {
     // enter
     var scatters_update_enter = scatters.enter()
       .append('circle')
-        .attr('class', 'circle');
+        .attr('class', 'circle')
 
     // update and enter
     scatters_update_enter
