@@ -95,33 +95,35 @@ Legend2dView.prototype.display = function () {
     entries.exit()
         .remove();
 
-    var rect = svg.select('.legend').node().getBBox();
-    var offset = 2;
-    var pathinfo = [
-        {x: rect.x-offset, y: rect.y },
-        {x: rect.x+offset + rect.width, y: rect.y},
-        {x: rect.x+offset + rect.width, y: rect.y + rect.height },
-        {x: rect.x-offset, y: rect.y + rect.height},
-        {x: rect.x-offset, y: rect.y },
-    ];
+    try {
+        var rect = svg.select('.legend').node().getBBox();
+        var offset = 2;
+        var pathinfo = [
+            {x: rect.x-offset, y: rect.y },
+            {x: rect.x+offset + rect.width, y: rect.y},
+            {x: rect.x+offset + rect.width, y: rect.y + rect.height },
+            {x: rect.x-offset, y: rect.y + rect.height},
+            {x: rect.x-offset, y: rect.y },
+        ];
 
-    var d3line = d3.svg.line()
-        .x(function(d) { return d.x; })
-        .y(function(d) { return d.y; });
+        var d3line = d3.svg.line()
+            .x(function(d) { return d.x; })
+            .y(function(d) { return d.y; });
 
-    var legend_rect = legend_box.selectAll('.legend-box')
-        .data([pathinfo]);
-    var legend_rect_enter = legend_rect.enter()
-      .append('path')
-        .attr('class', 'legend-box')
-        .style('stroke', 'black')
-        .style('stroke-width', '1')
-        .style('fill', 'none');
+        var legend_rect = legend_box.selectAll('.legend-box')
+            .data([pathinfo]);
+        var legend_rect_enter = legend_rect.enter()
+          .append('path')
+            .attr('class', 'legend-box')
+            .style('stroke', 'black')
+            .style('stroke-width', '1')
+            .style('fill', 'none');
 
-    legend_rect_enter
-        .attr('d', function (d) { return d3line(d); });
+        legend_rect_enter
+            .attr('d', function (d) { return d3line(d); });
 
-    legend_rect.exit().remove();
+        legend_rect.exit().remove();
+    } catch (ignore) {}
 };
 
 module.exports = Legend2dView;
