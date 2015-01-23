@@ -2,10 +2,15 @@ var d3 = require('d3');
 var String = require('./utils/string_extension.js');
 
 
-function Axis2d(view) {
+function Axis2d(view, configuration) {
     this.view = view;
     this.model = view.model;
     this.container = view.container;
+
+    for (var i=0; i<configuration.length; ++i) {
+        this.extra_margin = configuration[i].extra_margin || undefined;
+    }
+
     this.compute_axes();
 }
 
@@ -177,18 +182,19 @@ Axis2d.prototype.compute_axes = function() {
 };
 
 Axis2d.prototype.margin = function(margin) {
-    if (this.extra_margin !== undefined) {
-        extra_margin = this.extra_margin();
-    } else {
-        extra_margin = {top: 0, left: 0, right: 0, bottom: 0};
-    }
     if (!arguments.length) {
+        var em;
+        if (this.extra_margin !== undefined) {
+            em = this.extra_margin;
+        } else {
+            em = {top: 0, left: 0, right: 0, bottom: 0};
+        }
         var m = this.margin_;
-        var em = extra_margin;
-        return {
+        var mm = {
             top: m.top + em.top, left: m.left + em.left,
             right: m.right + em.right, bottom: m.bottom + em.bottom
         };
+        return mm;
     }
     this.margin_ = margin;
     return this;
@@ -226,16 +232,16 @@ Axis2d.prototype.update = function() {
 };
 
 Axis2d.prototype.display = function() {
-    var svg = this.container.selectAll('svg')
+    this.svg = this.container.selectAll('svg')
         .data([1]);
 
 
-    svg.enter()
+    this.svg.enter()
       .append('svg')
         .attr('width', this.view.width())
         .attr('height', this.view.height());
 
-    this.draw_area = svg.selectAll(".drawing_area")
+    this.draw_area = this.svg.selectAll(".drawing_area")
         .data([1]);
 
     var margin = this.margin();

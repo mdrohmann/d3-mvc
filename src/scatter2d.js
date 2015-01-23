@@ -12,6 +12,19 @@ Scatter2dView.prototype.configure = function(configuration) {
     this.color = configuration.color || this.view.color_scale();
 };
 
+Scatter2dView.prototype.legend_icon = function(index, selection) {
+    var color = this.color;
+    color.domain(this.view.get_names());
+    var name = this.view.adapter().name(index);
+    var c = color(name);
+
+    selection.append('circle')
+        .attr('class', 'circle ' + name)
+        .style('fill', c)
+        .attr('r', 3)
+        .attr('cx', 8)
+        .attr('cy', 3);
+};
 Scatter2dView.prototype.display = function () {
     this.view.axis.update();
     var svg = this.view.axis.draw_area;

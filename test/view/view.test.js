@@ -136,7 +136,7 @@ describe('d3mvc', function() {
         it('should generate two x axes and two y axes', function(done) {
             var view = default_init(two_x_axes_two_y_axes)[0];
             expect(view).to.be.a(d3mvc.View);
-            view.config([{type: 'scatter'}]);
+            view.config([{type: 'scatter'}, {type: 'lines'}]);
             view.display();
             var title_dom = global_window.document.querySelectorAll(
                 ".x.axis");
@@ -170,6 +170,12 @@ describe('d3mvc', function() {
               .to.throwException(function (e) {
                   expect(e.name).to.eql('ModelFormatError');
               });
+            done();
+        });
+        it('should work with a legend', function(done) {
+            var view = default_init(one_axis_model)[0];
+            view.config([{type: 'lines'}, {type: 'legend'}])
+                .display();
             done();
         });
     });

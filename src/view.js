@@ -3,6 +3,7 @@ var colorbrewer = require('./colorbrewer.js');
 var utils = require('./utils/utils.js');
 var Lines2dView = require('./lines2d.js');
 var Scatter2dView = require('./scatter2d.js');
+var LegendView = require('./legend.js');
 var Axis2d = require('./axis2d.js');
 var d3 = require('d3');
 
@@ -157,7 +158,7 @@ View.prototype.addConfiguration = function(configuration) {
     else if(type === 'legend') {
         operation = new LegendView(this, configuration);
         axis_type = this.axis_type;
-        axis_options = [{extra_margin: operation.axis_margin}];
+        axis_options = {extra_margin: operation.axis_margin()};
         adapter_type = ModelAdapter2d;
     }
     else {
@@ -199,7 +200,7 @@ View.prototype.addConfiguration = function(configuration) {
 
 View.prototype.color_scale = function() {
     return this.color;
-}
+};
 View.prototype.is_configured = function() {
     return this.config_chain.length > 0;
 };
@@ -281,8 +282,8 @@ View.prototype.highlight_data_block = function(index) {
     throw { name: "NotImplementedError" };
 };
 
-View.prototype.legend_icon = function(index) {
-    throw { name: "NotImplementedError" };
+View.prototype.legend_icon = function(index, selection) {
+    this.config_chain.map(function(op) { op.legend_icon(index, selection); });
 };
 
 module.exports = View;

@@ -14,6 +14,18 @@ Lines2dView.prototype.configure = function(configuration) {
     this.color = configuration.color || this.view.color_scale();
 };
 
+Lines2dView.prototype.legend_icon = function(index, selection) {
+    var color = this.color;
+    color.domain(this.view.get_names());
+    var name = this.view.adapter().name(index);
+    var c = color(name);
+
+    selection.append('path')
+        .attr('class', 'line ' + name)
+        .style('stroke', c)
+        .attr('d', 'M0,3L14,3');
+};
+
 Lines2dView.prototype.display = function () {
     this.view.axis.update();
     var svg = this.view.axis.draw_area;
