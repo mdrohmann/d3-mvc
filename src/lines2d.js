@@ -11,7 +11,7 @@ Lines2dView.prototype = {};
 Lines2dView.prototype.display = function () {
     this.view.axis.update();
     var svg = this.view.axis.draw_area;
-    var adapter = this.view.axis.adapter();
+    var adapter = this.view.adapter();
 
     var line = d3.svg.line()
         .interpolate('cardinal')

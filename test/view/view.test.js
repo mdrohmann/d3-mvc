@@ -38,6 +38,17 @@ function default_init(model) {
 describe('d3mvc', function() {
 
     describe('View', function() {
+        it('should get all unique names', function(done) {
+            var view = default_init(too_many_x_values)[0];
+            expect(function() { view.get_names(); }).to.throwException();
+            view.config([{type: 'scatter'}]);
+            expect(view.get_names()).to.eql(['plot0', 'plot1', 'plot2']);
+            var view2 = default_init(empty_model)[0];
+            expect(function() { view2.get_names(); }).to.throwException();
+            view2.config([{type: 'scatter'}]);
+            expect(view2.get_names()).to.eql(['plot0']);
+            done();
+        });
         it('should create a given x axis title', function(done) {
             var view = default_init(one_axis_model)[0];
             expect(view).to.be.a(d3mvc.View);

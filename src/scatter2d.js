@@ -10,7 +10,7 @@ Scatter2dView.prototype = {};
 Scatter2dView.prototype.display = function () {
     this.view.axis.update();
     var svg = this.view.axis.draw_area;
-    var adapter = this.view.axis.adapter();
+    var adapter = this.view.adapter();
 
     var lines = svg.selectAll('.circle_container')
         .data(adapter.data(), function(d) { return d.name; });

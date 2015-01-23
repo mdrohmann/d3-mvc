@@ -42,7 +42,7 @@ Legend2dView.prototype.axis_margin = function() {
 
 Legend2dView.prototype.display = function () {
     var svg = this.view.axis.draw_area;
-    var adapter = this.view.axis.adapter();
+    var adapter = this.view.adapter();
 
     var legend_box = svg.selectAll('.legend')
         .data([1]);

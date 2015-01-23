@@ -2,81 +2,6 @@ var d3 = require('d3');
 var String = require('./utils/string_extension.js');
 
 
-function ModelAdapter2d(model) {
-    this.model = model;
-    this.xscales_ = [];
-    this.yscales_ = [];
-}
-
-ModelAdapter2d.prototype = {};
-ModelAdapter2d.prototype.name = function(i) {
-    return this.model[i].name || 'default';
-};
-ModelAdapter2d.prototype.x = function(i) {
-    try {
-        return this.model[i].data[0];
-    } catch(_) {
-        return [];
-    }
-};
-ModelAdapter2d.prototype.y = function(i) {
-    try {
-        return this.model[i].data[1];
-    } catch(_) {
-        return [];
-    }
-};
-ModelAdapter2d.prototype.xscale = function(i, scale) {
-    if (arguments.length === 1) {
-        xscale = this.xscales_[i];
-        if (xscale === undefined) {
-            return function(d) { return []; };
-        }
-        else {
-            return xscale;
-        }
-    }
-    this.xscales_[i] = scale;
-};
-ModelAdapter2d.prototype.yscale = function(i, scale) {
-    if (arguments.length == 1) {
-        yscale = this.yscales_[i];
-        if (yscale === undefined) {
-            return function(d) { return []; };
-        }
-        else {
-            return yscale;
-        }
-    }
-    this.yscales_[i] = scale;
-};
-ModelAdapter2d.prototype.xdesc = function(i) {
-    var alternative_xdesc = this.model[0].xdesc || 'x';
-    return this.model[i].xdesc || alternative_xdesc;
-};
-ModelAdapter2d.prototype.ydesc = function(i) {
-    var alternative_ydesc = this.model[0].ydesc || 'y';
-    return this.model[i].ydesc || alternative_ydesc;
-};
-ModelAdapter2d.prototype.xdomain = function(i) {
-    return this.model[i].xdomain || d3.extent(this.x(i));
-};
-ModelAdapter2d.prototype.ydomain = function(i) {
-    return this.model[i].ydomain || d3.extent(this.y(i));
-};
-ModelAdapter2d.prototype.data = function() {
-    var dat = [];
-    for (var i=0; i < this.model.length; ++i) {
-        dat.push({
-            xdesc: this.xdesc(i), ydesc: this.ydesc(i),
-            name: this.name(i),
-            x: this.x(i), y: this.y(i),
-            xscale: this.xscale(i), yscale: this.yscale(i)
-        });
-    }
-    return dat;
-};
-
 function Axis2d(view) {
     this.view = view;
     this.model = view.model;
@@ -85,12 +10,6 @@ function Axis2d(view) {
 }
 
 Axis2d.prototype = {};
-Axis2d.prototype.adapter = function() {
-    if (this.adapter_ === undefined || this.adapter_.model !== this.model) {
-        this.adapter_ = new ModelAdapter2d(this.model);
-    }
-    return this.adapter_;
-};
 
 Axis2d.prototype.height = function() {
     var margin = this.margin();
@@ -125,11 +44,11 @@ Axis2d.prototype.compute_axes = function() {
         ydescs = {};
     for (var mi=0; mi < this.model.length; ++mi) {
 
-        var xdesc = this.adapter().xdesc(mi);
-        var ydesc = this.adapter().ydesc(mi);
+        var xdesc = this.view.adapter().xdesc(mi);
+        var ydesc = this.view.adapter().ydesc(mi);
 
-        xdomain_tmp = this.adapter().xdomain(mi);
-        ydomain_tmp = this.adapter().ydomain(mi);
+        xdomain_tmp = this.view.adapter().xdomain(mi);
+        ydomain_tmp = this.view.adapter().ydomain(mi);
 
         if (xdesc in xdescs) {
             xdescs[xdesc].indices.push(mi);
@@ -190,7 +109,7 @@ Axis2d.prototype.compute_axes = function() {
             .domain(xdesc.domain)
             .range([0, th.width()]);
         xdesc.indices.map(function (index) {
-            th.adapter().xscale(index, xscales[i]);
+            th.view.adapter().xscale(index, xscales[i]);
         });
         xAxis.push(d3.svg.axis().scale(xscales[i]));
     });
@@ -200,7 +119,7 @@ Axis2d.prototype.compute_axes = function() {
             .domain(ydesc.domain)
             .range([0, th.height()]);
         ydesc.indices.map(function (index) {
-            th.adapter().yscale(index, yscales[i]);
+            th.view.adapter().yscale(index, yscales[i]);
         });
         yAxis.push(d3.svg.axis().scale(yscales[i]));
     });
@@ -283,7 +202,7 @@ Axis2d.prototype.draw_axis_label = function(classnames, config) {
 
     var axis_enter = axisC.enter()
       .append("g")
-        .attr("class", classnames.join(' '))
+        .attr("class", function (_, i) { return classnames.concat(['ax' + i]).join(' '); })
         .attr("transform", function (d) {return d.transformation; })
         .each(function (_, i) {
             d3.select(this).call(config[i].axis);
