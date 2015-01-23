@@ -3,6 +3,8 @@
 /build/
 /docs/build/
 *~
+*.log
+*.err
 *.bak
 *.pyc
 *.sw[onp]
