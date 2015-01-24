@@ -14,6 +14,10 @@
     color: red;
     background-color: lightgrey;
 }
+
+#controls {
+    margin-left: 500px;
+}
 </style>
 <script src="jquery.min.js"></script>
 <script src="d3.min.js"></script>
@@ -28,8 +32,8 @@
     <textarea id="model_data" rows="20" cols="80" autofocus>
 [{
     "name": "sin curve",
-    "xdescr": "X axis description",
-    "ydescr": "Y axis description",
+    "xdesc": "X values",
+    "ydesc": "Y values",
     "data": [[ 0        ,  0.31578947,  0.63157895,  0.94736842,  1.26315789,
         1.57894737,  1.89473684,  2.21052632,  2.52631579,  2.84210526,
         3.15789474,  3.47368421,  3.78947368,  4.10526316,  4.42105263,
@@ -43,6 +47,41 @@
     </textarea>
     <br />
     <input type="button" id="update_button" value="Update" />
+    <p> Consider to add:
+    <pre>
+    {
+    "name": "cos curve",
+    "data": [[ 0        ,  0.31578947,  0.63157895,  0.94736842,  1.26315789,
+        1.57894737,  1.89473684,  2.21052632,  2.52631579,  2.84210526,
+        3.15789474,  3.47368421,  3.78947368,  4.10526316,  4.42105263,
+        4.73684211,  5.05263158,  5.36842105,  5.68421053,  6        ],
+        [ 1        ,  0.95055149,  0.80709627,  0.58382164,  0.30280879,
+       -0.00815095, -0.31830459, -0.59697884, -0.81661368, -0.95548785,
+       -0.99986712, -0.94536252, -0.79736438, -0.57050928, -0.28723252,
+        0.02445069,  0.33371579,  0.6099774 ,  0.82591406,  0.96017029]
+        ]
+    }
+    </pre>
+    </p>
+    <p> For a new y axis add something like:
+    <pre>
+        {
+        "name": "two points 2",
+        "ydesc": "completely other y values",
+        "data": [[0, 5], [-100, 100]]
+        }
+    </pre>
+    </p>
+    <p> For a new x axis add something like:
+    <pre>
+        {
+        "name": "two points 2",
+        "xdesc": "completely other x values",
+        "ydesc": "completely other y values",
+        "data": [[-200, 200], [-100, 100]]
+        }
+    </pre>
+    </p>
 </form>
 </div>
 <div id="errors">

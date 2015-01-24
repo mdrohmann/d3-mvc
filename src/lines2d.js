@@ -3,6 +3,7 @@ var Axis2d = require('./axis2d.js');
 
 function Lines2dView(view, configuration) {
     this.view = view;
+    this.configuration = configuration;
     this.configure(configuration);
 }
 
@@ -61,6 +62,12 @@ Lines2dView.prototype.display = function () {
         .remove();
 
 };
+
+Lines2dView.prototype.update = function() {
+    this.configure(this.configuration);
+    this.display();
+};
+
 
 module.exports = Lines2dView;
 

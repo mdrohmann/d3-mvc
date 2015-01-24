@@ -22,14 +22,17 @@ function View(model, container, controllers) {
     this.config_ = [];
     this.displayed_ = false;
 
-    if (model.length < 12) {
-        this.color = d3.scale.ordinal().range(colorbrewer.Paired[Math.max(3, model.length)]);
-    } else if (model.length <= 20) {
-        this.color = d3.scale.category20();
-    }
+    this.configure();
 }
 
 View.prototype = {};
+View.prototype.configure = function() {
+    if (this.model.length < 12) {
+        this.color = d3.scale.ordinal().range(colorbrewer.Paired[Math.max(3, this.model.length)]);
+    } else {
+        this.color = d3.scale.category20();
+    }
+};
 View.prototype.adapter = function() {
     if (!this.is_configured()) { // || this.adapter_.model !== this.model) {
         throw {
@@ -167,8 +170,9 @@ View.prototype.update = function(model) {
         this.model = model;
         this.adapter_ = new this.adapter_type(model);
     }
+    this.configure();
     this.axis.update();
-    this.config_chain.map(function(op) { op.display(); });
+    this.config_chain.map(function(op) { op.update(); });
     return this;
 };
 

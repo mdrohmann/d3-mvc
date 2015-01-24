@@ -2,6 +2,7 @@ var d3 = require('d3');
 
 function Scatter2dView(view, configuration) {
     this.view = view;
+    this.configuration = configuration;
     this.configure(configuration);
 }
 
@@ -71,6 +72,11 @@ Scatter2dView.prototype.display = function () {
     // exit
     scatters.exit()
         .remove();
+};
+
+Scatter2dView.prototype.update = function() {
+    this.configure(this.configuration);
+    this.display();
 };
 
 module.exports = Scatter2dView;

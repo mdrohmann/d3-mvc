@@ -7,6 +7,7 @@ function Legend2dView(view, configuration) {
     this.outer_margin = {top: 0, left: 0, right: 0, bottom: 0};
     this.entry_height = 15;
     this.legend_margin = 5;
+    this.configuration = configuration;
 
     this.configure(configuration);
 }
@@ -137,6 +138,11 @@ Legend2dView.prototype.display = function () {
 
         legend_rect.exit().remove();
     } catch (ignore) {}
+};
+
+Legend2dView.prototype.update = function() {
+    this.configure(this.configuration);
+    this.display();
 };
 
 module.exports = Legend2dView;
