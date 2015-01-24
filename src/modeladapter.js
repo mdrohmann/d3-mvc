@@ -1,4 +1,5 @@
 var d3 = require('d3');
+var utils = require('./utils/utils.js');
 
 function ModelAdapter2d(model) {
     this.model = model;
@@ -96,6 +97,7 @@ ModelAdapter2d.prototype.data = function() {
         var elem = {
             xdesc: this.xdesc(i), ydesc: this.ydesc(i),
             name: this.name(i),
+            key: utils.string_to_slug(this.name(i)),
             x: this.x(i), y: this.y(i),
             xscale: this.xscale(i), yscale: this.yscale(i)
         };
