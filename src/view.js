@@ -2,95 +2,12 @@ var String = require('./utils/string_extension.js');
 var colorbrewer = require('./colorbrewer.js');
 var utils = require('./utils/utils.js');
 var Lines2dView = require('./lines2d.js');
+var BwUsageView = require('./bw_usage.js');
 var Scatter2dView = require('./scatter2d.js');
 var LegendView = require('./legend.js');
 var Axis2d = require('./axis2d.js');
+var ModelAdapter2d = require('./modeladapter.js');
 var d3 = require('d3');
-
-
-function ModelAdapter2d(model) {
-    this.model = model;
-    this.xscales_ = [];
-    this.yscales_ = [];
-}
-
-ModelAdapter2d.prototype = {};
-
-ModelAdapter2d.prototype.add_property = function(properties) {
-    if (properties !== undefined) {
-        throw {
-            'name': 'NotImplementedError'
-        };
-    }
-};
-ModelAdapter2d.prototype.name = function(i) {
-    return this.model[i].name || 'plot' + i;
-};
-ModelAdapter2d.prototype.x = function(i) {
-    try {
-        return this.model[i].data[0];
-    } catch(_) {
-        return [];
-    }
-};
-ModelAdapter2d.prototype.y = function(i) {
-    try {
-        return this.model[i].data[1];
-    } catch(_) {
-        return [];
-    }
-};
-ModelAdapter2d.prototype.xscale = function(i, scale) {
-    if (arguments.length === 1) {
-        xscale = this.xscales_[i];
-        if (xscale === undefined) {
-            return function(d) { return []; };
-        }
-        else {
-            return xscale;
-        }
-    }
-    this.xscales_[i] = scale;
-};
-ModelAdapter2d.prototype.yscale = function(i, scale) {
-    if (arguments.length == 1) {
-        yscale = this.yscales_[i];
-        if (yscale === undefined) {
-            return function(d) { return []; };
-        }
-        else {
-            return yscale;
-        }
-    }
-    this.yscales_[i] = scale;
-};
-ModelAdapter2d.prototype.xdesc = function(i) {
-    var alternative_xdesc = this.model[0].xdesc || 'x';
-    return this.model[i].xdesc || alternative_xdesc;
-};
-ModelAdapter2d.prototype.ydesc = function(i) {
-    var alternative_ydesc = this.model[0].ydesc || 'y';
-    return this.model[i].ydesc || alternative_ydesc;
-};
-ModelAdapter2d.prototype.xdomain = function(i) {
-    return this.model[i].xdomain || d3.extent(this.x(i));
-};
-ModelAdapter2d.prototype.ydomain = function(i) {
-    return this.model[i].ydomain || d3.extent(this.y(i));
-};
-ModelAdapter2d.prototype.data = function() {
-    // TODO: cache data
-    var data = [];
-    for (var i=0; i < this.model.length; ++i) {
-        data.push({
-            xdesc: this.xdesc(i), ydesc: this.ydesc(i),
-            name: this.name(i),
-            x: this.x(i), y: this.y(i),
-            xscale: this.xscale(i), yscale: this.yscale(i)
-        });
-    }
-    return data;
-};
 
 
 function View(model, container, controllers) {
@@ -115,10 +32,11 @@ function View(model, container, controllers) {
 
 View.prototype = {};
 View.prototype.adapter = function() {
-    if (this.is_configured() && this.adapter_.model !== this.model) {
+    if (!this.is_configured()) { // || this.adapter_.model !== this.model) {
         throw {
             name: 'RuntimeError',
-            message: 'model wrapped in adapter changed! That should not happen!'
+            message: 'Model adapter was not configured yet...'
+//            message: 'model wrapped in adapter changed! That should not happen!'
         };
     }
     return this.adapter_;
@@ -154,6 +72,7 @@ View.prototype.addConfiguration = function(configuration) {
         operation = new BwUsageView(this, configuration);
         axis_type = Axis2d;
         adapter_type = ModelAdapter2d;
+        adapter_options = ['pno', 'y0'];
     }
     else if(type === 'legend') {
         operation = new LegendView(this, configuration);
