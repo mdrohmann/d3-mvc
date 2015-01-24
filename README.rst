@@ -5,8 +5,10 @@ D3-mvc
 If you want to visualize a lot of basic 2D plots with
 interactive elements, this package might be useful for
 you. It uses the famous `d3`_ package to create plots:
-All you have to do is to format your data into json files
-containing your ``x`` and ``y`` values of the plot and add the following tiny script to your webpage:
+All you have to do is to include the bundles javascript
+file and format your data into json files containing your
+``x`` and ``y`` values of the plot and add the following
+tiny script to your webpage:
 
 .. code:: javascript
 
