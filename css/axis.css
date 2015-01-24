@@ -14,11 +14,24 @@ svg {
     stroke-width: 1px;
 }
 
+path.line.highlight {
+    stroke-width: 4px;
+}
+
 path.line {
     fill: none;
     stroke-width: 2px;
 }
 
+.circle_container.highlight circle {
+    fill: inherit;
+    stroke-width: 2px;
+    stroke: orange;
+}
+
 svg circle {
     fill: inherit;
+    stroke: none;
 }
+
+

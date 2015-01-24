@@ -3,7 +3,6 @@ var Axis2d = require('./axis2d.js');
 
 function Lines2dView(view, configuration) {
     this.view = view;
-    this.model = view.model;
     this.configure(configuration);
 }
 
@@ -33,26 +32,29 @@ Lines2dView.prototype.display = function () {
     var color = this.color;
     color.domain(this.view.get_names());
 
+    var data = adapter.data();
     var line = d3.svg.line()
         .interpolate(this.interpolation)
         .x(function (d) { return d[0]; })
         .y(function (d) { return d[1]; });
 
     var lines = svg.selectAll('.line')
-        .data(adapter.data(), function(d) { return d.name; });
+        .data(data, function(d) { return d.key; });
 
     /* one graph for each model */
     // enter
     lines.enter()
-      .append('path')
-        .attr('class', function(d) { return 'line ' + d.name; })
+      .append('path');
+
+    // enter and update
+    lines.attr('class', function(d) { return 'line ' + d.key; })
+        .transition()
+        .duration(300)
         .style('stroke', function(d) { return color(d.name); })
         .attr('d', function(d) {
             var ds = d3.transpose([d.x.map(d.xscale), d.y.map(d.yscale)]);
             return line(ds);
         });
-
-    // update not necessary
 
     // exit
     lines.exit()

@@ -4,7 +4,6 @@ var String = require('./utils/string_extension.js');
 
 function Axis2d(view, configuration) {
     this.view = view;
-    this.model = view.model;
     this.container = view.container;
 
     for (var i=0; i<configuration.length; ++i) {
@@ -38,7 +37,9 @@ Axis2d.prototype.compute_axes = function() {
         top: 10, bottom: 50, left: 60, right: 10
     };
 
-    if (this.model.length === 0) {
+    model = this.view.model;
+
+    if (model.length === 0) {
         throw {
             name: 'ModelFormatError',
             message: 'Model needs to have at least one element.'
@@ -47,7 +48,7 @@ Axis2d.prototype.compute_axes = function() {
 
     var xdescs = {},
         ydescs = {};
-    for (var mi=0; mi < this.model.length; ++mi) {
+    for (var mi=0; mi < model.length; ++mi) {
 
         var xdesc = this.view.adapter().xdesc(mi);
         var ydesc = this.view.adapter().ydesc(mi);
@@ -122,7 +123,7 @@ Axis2d.prototype.compute_axes = function() {
         var ydesc = ydescs[yl];
         yscales[i]
             .domain(ydesc.domain)
-            .range([0, th.height()]);
+            .range([th.height(), 0]);
         ydesc.indices.map(function (index) {
             th.view.adapter().yscale(index, yscales[i]);
         });
@@ -210,12 +211,14 @@ Axis2d.prototype.draw_axis_label = function(classnames, config) {
     var axis_enter = axisC.enter()
       .append("g")
         .attr("class", function (_, i) { return classnames.concat(['ax' + i]).join(' '); })
-        .attr("transform", function (d) {return d.transformation; })
+      .append("text")  // axis label
+        .attr("class", "label");
+
+    axisC.attr("transform", function (d) {return d.transformation; })
         .each(function (_, i) {
             d3.select(this).call(config[i].axis);
         })
-      .append("text")  // axis label
-        .attr("class", "label")
+      .select("text")
         .attr("transform", function(d) { return d.labelpos.transformation; })
         .attr("x", function(d) { return d.labelpos.x; })
         .attr("y", function(d) { return d.labelpos.y; })
@@ -229,28 +232,31 @@ Axis2d.prototype.draw_axis_label = function(classnames, config) {
 };
 
 Axis2d.prototype.update = function() {
-    console.warn('This needs to be implemented yet!');
+    this.compute_axes();
+    this.display();
 };
 
 Axis2d.prototype.display = function() {
     this.svg = this.container.selectAll('svg')
-        .data([1]);
+        .data([this]);
 
 
     this.svg.enter()
       .append('svg')
-        .attr('width', this.view.width())
-        .attr('height', this.view.height());
+        .attr('width', function(d) { return d.view.width(); })
+        .attr('height', function(d) { return d.view.height(); });
 
     this.draw_area = this.svg.selectAll(".drawing_area")
-        .data([1]);
+        .data([this]);
 
     var margin = this.margin();
 
     var draw_area_enter = this.draw_area.enter()
       .append('g')
         .attr('class', 'drawing_area')
-        .attr('transform', 'translate({left},{top})'.format(this.margin()));
+        .attr('transform', function (d) {
+            return 'translate({left},{top})'.format(d.margin());
+        });
 
     this.draw_axis_label(['x', 'axis'], this.xlabel_config);
     this.draw_axis_label(['y', 'axis'], this.ylabel_config);

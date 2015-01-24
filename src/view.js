@@ -165,9 +165,10 @@ View.prototype.display = function() {
 View.prototype.update = function(model) {
     if (arguments.length === 1) {
         this.model = model;
+        this.adapter_ = new this.adapter_type(model);
     }
     this.axis.update();
-    this.config_chain.map(function(op) { op.update(); });
+    this.config_chain.map(function(op) { op.display(); });
     return this;
 };
 

@@ -2,7 +2,6 @@ var d3 = require('d3');
 
 function Scatter2dView(view, configuration) {
     this.view = view;
-    this.model = view.model;
     this.configure(configuration);
 }
 
@@ -25,6 +24,7 @@ Scatter2dView.prototype.legend_icon = function(index, selection) {
         .attr('cx', 8)
         .attr('cy', 3);
 };
+
 Scatter2dView.prototype.display = function () {
     this.view.axis.update();
     var svg = this.view.axis.draw_area;
@@ -32,14 +32,17 @@ Scatter2dView.prototype.display = function () {
     var color = this.color;
     color.domain(this.view.get_names());
 
+    var data = adapter.data();
+
     var lines = svg.selectAll('.circle_container')
-        .data(adapter.data(), function(d) { return d.name; });
+        .data(data, function(d) { return d.key; });
 
     /* one graph for each model */
     // enter
-    var lines_enter_update = lines.enter()
-      .append('g')
-        .attr('class', function(d) { return 'circle_container ' + d.name; })
+    lines.enter()
+      .append('g');
+
+    lines.attr('class', function(d) { return 'circle_container ' + d.key; })
         .style('fill', function (d) { return color(d.name); });
 
     // update not necessary
@@ -49,18 +52,18 @@ Scatter2dView.prototype.display = function () {
         .remove();
 
     /* plot the graphs */
-    var scatters = lines_enter_update.selectAll('.circle')
+    var scatters = lines.selectAll('.circle')
         .data(function (d) { return d3.transpose([d.x.map(d.xscale), d.y.map(d.yscale)]); });
 
     // enter
-    var scatters_update_enter = scatters.enter()
+    scatters.enter()
       .append('circle')
         .attr('class', 'circle');
 
     // update and enter
-    scatters_update_enter
+    scatters
         .transition()
-        .duration(100)
+        .duration(300)
         .attr('r', 3)
         .attr('cx', function(d) { return d[0]; })
         .attr('cy', function(d) { return d[1]; });

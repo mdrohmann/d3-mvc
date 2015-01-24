@@ -2,7 +2,6 @@ var d3 = require('d3');
 
 function Legend2dView(view, configuration) {
     this.view = view;
-    this.model = view.model;
     this.xshift = 0;
     this.yshift = 0;
     this.outer_margin = {top: 0, left: 0, right: 0, bottom: 0};
@@ -53,6 +52,18 @@ Legend2dView.prototype.display = function () {
     var legend_box = svg.selectAll('.legend')
         .data([1]);
 
+    var mouseover_func = function (d) {
+        d3.selectAll('.drawing_area .' + d.key)
+            .classed('highlight', true);
+        d3.select(this)
+            .classed('highlight', true);
+    };
+    var mouseleave_func = function (d) {
+        d3.selectAll('.drawing_area .' + d.key)
+            .classed('highlight', false);
+        d3.select(this)
+            .classed('highlight', false);
+    };
     var eh = this.entry_height,
         lm = this.legend_margin;
     legend_box.enter()
@@ -67,7 +78,7 @@ Legend2dView.prototype.display = function () {
         .text('Legend');
 
     var entries = svg.select('.legend').selectAll('.entry')
-        .data(adapter.data(), function (d) { return d.name; });
+        .data(adapter.data(), function (d) { return d.key; });
 
     var entries_enter = entries.enter()
       .append('g')
@@ -75,7 +86,9 @@ Legend2dView.prototype.display = function () {
         .attr('transform',
              function (d, i) {
                  return "translate(0, " + (eh * (i+1) + lm) + ")";
-             });
+             })
+        .on('mouseover', mouseover_func)
+        .on('mouseleave', mouseleave_func);
     entries_enter
       .append('text')
         .attr('x', 18)
@@ -112,14 +125,14 @@ Legend2dView.prototype.display = function () {
 
         var legend_rect = legend_box.selectAll('.legend-box')
             .data([pathinfo]);
-        var legend_rect_enter = legend_rect.enter()
+        legend_rect.enter()
           .append('path')
             .attr('class', 'legend-box')
             .style('stroke', 'black')
             .style('stroke-width', '1')
             .style('fill', 'none');
 
-        legend_rect_enter
+        legend_rect
             .attr('d', function (d) { return d3line(d); });
 
         legend_rect.exit().remove();
