@@ -2,7 +2,6 @@ var String = require('./utils/string_extension.js');
 var colorbrewer = require('./colorbrewer.js');
 var utils = require('./utils/utils.js');
 var Lines2dView = require('./lines2d.js');
-var BwUsageView = require('./bw_usage.js');
 var Scatter2dView = require('./scatter2d.js');
 var LegendView = require('./legend.js');
 var Axis2d = require('./axis2d.js');
@@ -67,12 +66,6 @@ View.prototype.addConfiguration = function(configuration) {
         operation = new Scatter2dView(this, configuration);
         axis_type = Axis2d;
         adapter_type = ModelAdapter2d;
-    }
-    else if(type === 'bw_usage') {
-        operation = new BwUsageView(this, configuration);
-        axis_type = Axis2d;
-        adapter_type = ModelAdapter2d;
-        adapter_options = ['pno', 'y0'];
     }
     else if(type === 'legend') {
         operation = new LegendView(this, configuration);
