@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../css/axis.css"></link>
+<style>
+#plot {
+    width: 500px;
+    height: 400px;
+    float: left;
+}
+
+#json_errors {
+    color: red;
+    background-color: lightgrey;
+}
+</style>
+<script src="jquery.min.js"></script>
+<script src="d3.min.js"></script>
+<script src="d3mvc.js"></script>
+</head>
+
+<body>
+<div id="plot"></div>
+<div id="controls">
+<div id="json_errors"></div>
+<form>
+    <textarea id="model_data" rows="20" cols="80" autofocus>
+[{
+    "name": "sin curve",
+    "xdescr": "X axis description",
+    "ydescr": "Y axis description",
+    "data": [[ 0        ,  0.31578947,  0.63157895,  0.94736842,  1.26315789,
+        1.57894737,  1.89473684,  2.21052632,  2.52631579,  2.84210526,
+        3.15789474,  3.47368421,  3.78947368,  4.10526316,  4.42105263,
+        4.73684211,  5.05263158,  5.36842105,  5.68421053,  6        ],
+        [ 0        ,  0.310567  ,  0.59041986,  0.81188195,  0.95305133,
+        0.99996678,  0.9479885 ,  0.80225698,  0.57718464,  0.29503045,
+       -0.01630136, -0.32602102, -0.60349817, -0.82129115, -0.95786089,
+       -0.99970104, -0.94267373, -0.79241881, -0.56379603, -0.2794155 ]
+           ]
+}]
+    </textarea>
+    <br />
+    <input type="button" id="update_button" value="Update" />
+</form>
+</div>
+<div id="errors">
+</div>
+<script>
+    $("#plot").children(0).remove();
+    var model = JSON.parse(d3.select("#model_data").html());
+    var view = d3mvc.make_view(model, "#plot")
+        .addConfiguration({type: 'lines'})
+        .addConfiguration({type: 'scatter'})
+        .addConfiguration({type: 'legend'})
+        .display();
+    $("#update_button").click(function () {
+            try {
+                var model = JSON.parse(d3.select("#model_data").property('value'));
+                view.update(model);
+            } catch (e) {
+                if (e instanceof SyntaxError) {
+                    $("#json_errors").text(e.message);
+                } else {
+                    $("#errors").text(e.message);
+                }
+            }
+    });
+</script>
+</body>
+
+</html>
+<!-- vim: set sw=4: -->
