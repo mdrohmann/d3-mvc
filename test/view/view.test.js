@@ -37,7 +37,44 @@ function default_init(model) {
 
 describe('d3mvc', function() {
 
+    describe('ModelAdapter2d', function() {
+        it('should raise an error if property is not available', function(done) {
+            var adapter = new d3mvc.ModelAdapter2d([{}]);
+            adapter.add_property(['temp']);
+            expect(function() { return adapter.data(); }).to.throwException(function (e) {
+                expect(e.name).to.eql('RuntimeError');
+            });
+            done();
+        });
+        it('should add a properties value to the data', function(done) {
+            var adapter = new d3mvc.ModelAdapter2d([{temp: [1, 2, 3]}]);
+            adapter.add_property(['temp']);
+            expect(adapter.data()[0]).to.have.key('temp');
+            expect(adapter.data()[0].temp).to.eql([1, 2, 3]);
+            done();
+        });
+        it('should work with default functions', function(done) {
+            var adapter = new d3mvc.ModelAdapter2d([{temp: [1, 2, 3]}]);
+            adapter.add_property([{
+                key: 'temp', default: function(d, i) { return d.x || []; }}]);
+            expect(adapter.data()[0]).to.have.key('temp');
+            expect(adapter.data()[0].temp).to.eql([1, 2, 3]);
+            adapter = new d3mvc.ModelAdapter2d([{}]);
+            adapter.add_property([{
+                key: 'temp', default: function(d, i) { return d.x || []; }}]);
+            expect(adapter.data()[0]).to.have.key('temp');
+            expect(adapter.data()[0].temp).to.eql([]);
+            done();
+        });
+    });
+
     describe('View', function() {
+        it('should return is_configured after configuration', function(done) {
+            var view = default_init(too_many_x_values)[0];
+            view.config([{type: 'scatter'}]);
+            expect(view.is_configured()).to.be(true);
+            done();
+        });
         it('should get all unique names', function(done) {
             var view = default_init(too_many_x_values)[0];
             expect(function() { view.get_names(); }).to.throwException();
