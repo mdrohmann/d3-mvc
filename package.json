@@ -1,22 +1,25 @@
 {
-    "name": "d3mvc",
-    "version": "0.2.0",
-    "main": "./bundle.js",
-    "browserify": {
-        "transform": [ "browserify-shim" ]
-    },
-    "browserify-shim": {
-        "jsdom": "global:jsdom",
-        "d3": "global:d3",
-        "expect.js": "global:expect"
-    },
-    "devDependencies" : {
-        "expect.js": "~0.3.1",
-        "jsdom": "~0.5.7",
-        "browserify": ">=5.0",
-        "browserify-shim": ">=3.7",
-        "mocha": ">=1.0",
-        "d3": ">=3.4",
-        "promise": ">=6.0"
-    }
+  "name": "d3mvc",
+  "version": "0.2.0",
+  "main": "./bundle.js",
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "jsdom": "global:jsdom",
+    "d3": "global:d3",
+    "expect.js": "global:expect"
+  },
+  "devDependencies": {
+    "expect.js": "~0.3.1",
+    "jsdom": "~0.5.7",
+    "browserify": ">=5.0",
+    "browserify-shim": ">=3.7",
+    "mocha": ">=1.0",
+    "d3": ">=3.4",
+    "promise": ">=6.0",
+    "jquery": "~2.1.3"
+  }
 }
