@@ -28,6 +28,20 @@ var too_many_y_values = [{}, {ydesc: 'x2'}, {ydesc: 'x3'}];
 
 var no_model = [];
 
+var bw_usage_model = [{
+        "name": "Message 1",
+        "xdesc": "time [s]",
+        "ydesc": "bw usage [kb/s]",
+        "data": [[0, 1, 2, 3],[2, 0, 0.5,0]],
+        "pno": [0, 0, 1, 1],
+        "y0": [0, 0, 1, 0]
+},{
+        "name": "Message 2",
+        "data": [[1, 2, 2, 3],[2, 0, 0.5,0]],
+        "pno": [0, 0, 1, 1],
+        "y0": [0, 0, 0, 0]
+}];
+
 function default_init(model) {
     var test_div = global_window.document.getElementById('test');
     view = d3mvc.make_view(model, test_div);
@@ -212,6 +226,12 @@ describe('d3mvc', function() {
         it('should work with a legend', function(done) {
             var view = default_init(one_axis_model)[0];
             view.config([{type: 'lines'}, {type: 'legend'}])
+                .display();
+            done();
+        });
+        it('should create a bw usage graph', function(done) {
+            var view = default_init(bw_usage_model)[0];
+            view.config([{type: 'bw_usage'}])
                 .display();
             done();
         });
