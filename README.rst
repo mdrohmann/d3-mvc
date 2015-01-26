@@ -23,4 +23,15 @@ tiny script to your webpage:
 
 The ``view`` is a description of how the data should be visualized.  The configuration options are still very limited, but easy to extend.  For more information on the format of the data files, I refer to the examples/ directory.
 
+Design goals
+============
+
+- a strict separation between model (what data should be visualized?) and view (how should the data be visualized?).
+- easy extension / reusability with custom views
+
+Interactive demo
+================
+
+An interactive demo for this project is available `here <http://bl.ocks.org/mdrohmann/d1f068cfff753d25c45c/0750ae8cc131fbcbbe2c06238213a34fcc647017>`_.
+
 .. _d3: http://d3js.org/
