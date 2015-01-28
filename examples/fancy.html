@@ -95,6 +95,7 @@
         .addConfiguration({type: 'legend'})
         .display();
     $("#update_button").click(function () {
+            $("#json_errors, #errors").text("");
             try {
                 var model = JSON.parse(d3.select("#model_data").property('value'));
                 view.update(model);
