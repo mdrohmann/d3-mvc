@@ -8,6 +8,7 @@ function Legend2dView(view, configuration) {
     this.entry_height = 15;
     this.legend_margin = 5;
     this.configuration = configuration;
+    this.width = 110; // assumed width (update the plot twice to get the right value)
 
     this.configure(configuration);
 }
@@ -26,7 +27,7 @@ Legend2dView.prototype.configure = function(configuration) {
 Legend2dView.prototype.configure_position = function() {
 
     if (this.pos === 'outer right' || this.pos === 'default') {
-        this.outer_margin.right = 110;
+        this.outer_margin.right = this.width;
         this.xshift = this.view.width() - (this.outer_margin.right + 5);
         this.yshift = 0;
     } else {
@@ -50,8 +51,8 @@ Legend2dView.prototype.display = function () {
     var view = this.view;
     var adapter = view.adapter();
 
-    var legend_box = svg.selectAll('.legend')
-        .data([1]);
+    var legend_box = svg.selectAll('.legend_with_box')
+        .data([this]);
 
     var mouseover_func = function (d) {
         d3.selectAll('.drawing_area .' + d.key)
@@ -69,14 +70,21 @@ Legend2dView.prototype.display = function () {
         lm = this.legend_margin;
     legend_box.enter()
       .append('g')
+        .attr('class', 'legend_with_box')
+      .append('g')
         .attr('class', 'legend')
-        .attr('transform', "translate(" + this.xshift + "," + this.yshift + ")")
       .append('text')
         .attr('class', 'title')
         .attr('dy', '.71em')
-        .attr('transform', 'translate(18, ' + lm + ')')
         .style('font-weight', 'bold')
         .text('Legend');
+
+    legend_box
+        .attr('transform', function(d) {
+            return "translate(" + d.xshift + "," + d.yshift + ")";
+        });
+    legend_box.select('.title')
+        .attr('transform', function(d) { return 'translate(18, ' + d.legend_margin + ')'; });
 
     var entries = svg.select('.legend').selectAll('.entry')
         .data(adapter.data(), function (d) { return d.key; });
@@ -110,21 +118,24 @@ Legend2dView.prototype.display = function () {
         .remove();
 
     try {
-        var rect = svg.select('.legend').node().getBBox();
+        var rect = svg.select(".legend").node().getBBox();
         var offset = 2;
+        this.width = rect.width + 2 * offset + 2;
+        this.configure_position();
         var pathinfo = [
-            {x: rect.x-offset, y: rect.y },
-            {x: rect.x+offset + rect.width, y: rect.y},
-            {x: rect.x+offset + rect.width, y: rect.y + rect.height },
-            {x: rect.x-offset, y: rect.y + rect.height},
-            {x: rect.x-offset, y: rect.y },
+            {x: rect.x - offset, y: rect.y - offset},
+            {x: rect.x + rect.width + offset, y: rect.y - offset},
+            {x: rect.x + rect.width + offset, y: rect.y + rect.height + offset},
+            {x: rect.x - offset, y: rect.y + rect.height + offset},
+            {x: rect.x - offset, y: rect.y - offset},
         ];
 
         var d3line = d3.svg.line()
             .x(function(d) { return d.x; })
             .y(function(d) { return d.y; });
 
-        var legend_rect = legend_box.selectAll('.legend-box')
+        var legend_with_box = svg.select('.legend_with_box');
+        var legend_rect = legend_with_box.selectAll('.legend-box')
             .data([pathinfo]);
         legend_rect.enter()
           .append('path')
