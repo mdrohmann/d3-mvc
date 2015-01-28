@@ -86,16 +86,14 @@ Legend2dView.prototype.display = function () {
     legend_box.select('.title')
         .attr('transform', function(d) { return 'translate(18, ' + d.legend_margin + ')'; });
 
+    var data = adapter.data().map(
+        function(d, i) { d.yshift = (eh * (i+1) + lm); return d; });
     var entries = svg.select('.legend').selectAll('.entry')
-        .data(adapter.data(), function (d) { return d.key; });
+        .data(data, function (d) { return d.key; });
 
     var entries_enter = entries.enter()
       .append('g')
         .attr('class', 'entry')
-        .attr('transform',
-             function (d, i) {
-                 return "translate(0, " + (eh * (i+1) + lm) + ")";
-             })
         .on('mouseover', mouseover_func)
         .on('mouseleave', mouseleave_func);
     entries_enter
@@ -107,6 +105,11 @@ Legend2dView.prototype.display = function () {
       .append('g')
         .attr('class', 'icon');
 
+    entries
+        .attr('transform',
+             function (d) {
+                 return "translate(0, " + d.yshift + ")";
+             });
     entries.select('.icon')
         .each(function (d, i) {
             view.legend_icon(i, d3.select(this));
