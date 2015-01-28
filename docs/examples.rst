@@ -4,7 +4,7 @@ Examples
 Axis with descriptions
 ----------------------
 
-.. literalinclude:: ../examples/one_axis.json
+.. literalinclude:: ../examples/axis.json
    :language: json
 
 .. literalinclude:: ../examples/one_axis.js
@@ -29,15 +29,3 @@ Linear plot
 .. literalinclude:: ../examples/linear_plot.js
    :language: javascript
 
-
-Controllers in linear plot
---------------------------
-
-.. literalinclude:: ../examples/linear_plot_controller.json
-   :language: json
-
-.. literalinclude:: ../examples/linear_plot_controller.js
-   :language: javascript
-
-Bandwidth usage widget
-----------------------

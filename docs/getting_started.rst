@@ -57,12 +57,10 @@ More complex configuration are possible, too:
    view.config(
        [{
           type: 'scatter',
-          if: function(d) { return d.name !== 'mean'; },
           colors: d3mvc.default_colors
         },
         {
           type: 'line',
-          if: function(d) { return d.name === 'mean'; },
           colors: 'green'
         },
         { type: 'legend', pos: 'default' }
@@ -106,15 +104,11 @@ line
   Optional fields are ``colors``.
 
 legend
-  Optional fields is ``pos``
+  Optional fields is ``pos`` (only possible is ``outer right``)
 
 .. _controller:
 
 Controller concept
 ------------------
 
-At the moment, there are two controllers available:
-
-- :class:`d3mvc.Controller.tooltip`
-- :class:`d3mvc.Controller.brush`
-
+At the moment, there are no controllers available yet.
