@@ -2,13 +2,16 @@
 
 BUNDLE_SOURCES = src/*.js src/*/*.js
 
-all: bundle.js
+all: bundle.js dist/d3mvc.js
 
 docs:
 	make -C docs/ html
 
 bundle.js: src/d3mvc.js $(BUNDLE_SOURCES)
 	browserify $< --standalone d3mvc -o $@
+
+dist/d3mvc.js: bundle.js
+	mkdir -p ./dist; cp $< $@
 
 test/browser.bundle.js: test/browsertest.js test/*/*.test.js
 	browserify $< -o $@
