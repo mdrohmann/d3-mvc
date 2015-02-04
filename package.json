@@ -1,5 +1,12 @@
 {
+  "maintainers": [{
+    "name": "Martin Drohmann"
+  }],
+  "licenses": [{
+    "type": "GPLv2"
+  }],
   "name": "d3mvc",
+  "description": "Simple and concise Model-view implementation for charts in d3",
   "version": "0.2.0",
   "main": "./bundle.js",
   "browserify": {
