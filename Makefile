@@ -14,7 +14,7 @@ dist/d3mvc.js: bundle.js
 	mkdir -p ./dist; cp $< $@
 
 dist/d3mvc.min.js: bundle.js
-	mkdir -p ./dist; uglify -s $< -o $@
+	mkdir -p ./dist; ./bin/uglify $< -c -m > $@
 
 test/browser.bundle.js: test/browsertest.js test/*/*.test.js $(BUNDLE_SOURCES)
 	browserify $< -o $@
