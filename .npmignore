@@ -1,0 +1,12 @@
+/node_modules/
+/coverage/
+/build/
+/docs/build/
+*~
+*.log
+*.err
+*.bak
+*.pyc
+*.sw[onp]
+test/browser.bundle.js
+tests.xml
