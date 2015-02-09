@@ -2,7 +2,7 @@
 
 BUNDLE_SOURCES = src/*.js src/*/*.js
 
-all: bundle.js dist/d3mvc.js
+all: bundle.js dist/d3mvc.js dist/d3mvc.min.js
 
 docs:
 	make -C docs/ html
@@ -13,7 +13,10 @@ bundle.js: src/d3mvc.js $(BUNDLE_SOURCES)
 dist/d3mvc.js: bundle.js
 	mkdir -p ./dist; cp $< $@
 
-test/browser.bundle.js: test/browsertest.js test/*/*.test.js
+dist/d3mvc.min.js: bundle.js
+	mkdir -p ./dist; uglify -s $< -o $@
+
+test/browser.bundle.js: test/browsertest.js test/*/*.test.js $(BUNDLE_SOURCES)
 	browserify $< -o $@
 
 browsertest: test/browser.bundle.js

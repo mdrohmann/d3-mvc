@@ -54,7 +54,7 @@ ModelAdapter2d.prototype.y = function(i) {
 };
 ModelAdapter2d.prototype.xscale = function(i, scale) {
     if (arguments.length === 1) {
-        xscale = this.xscales_[i];
+        var xscale = this.xscales_[i];
         if (xscale === undefined) {
             return function(d) { return []; };
         }
@@ -66,7 +66,7 @@ ModelAdapter2d.prototype.xscale = function(i, scale) {
 };
 ModelAdapter2d.prototype.yscale = function(i, scale) {
     if (arguments.length == 1) {
-        yscale = this.yscales_[i];
+        var yscale = this.yscales_[i];
         if (yscale === undefined) {
             return function(d) { return []; };
         }

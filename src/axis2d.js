@@ -37,7 +37,7 @@ Axis2d.prototype.compute_axes = function() {
         top: 10, bottom: 50, left: 60, right: 10
     };
 
-    model = this.view.model;
+    var model = this.view.model;
 
     if (model.length === 0) {
         throw {
@@ -53,8 +53,8 @@ Axis2d.prototype.compute_axes = function() {
         var xdesc = this.view.adapter().xdesc(mi);
         var ydesc = this.view.adapter().ydesc(mi);
 
-        xdomain_tmp = this.view.adapter().xdomain(mi);
-        ydomain_tmp = this.view.adapter().ydomain(mi);
+        var xdomain_tmp = this.view.adapter().xdomain(mi);
+        var ydomain_tmp = this.view.adapter().ydomain(mi);
 
         if (xdesc in xdescs) {
             xdescs[xdesc].indices.push(mi);

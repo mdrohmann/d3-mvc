@@ -30,7 +30,7 @@ var no_model = [];
 
 function default_init(model) {
     var test_div = global_window.document.getElementById('test');
-    view = d3mvc.make_view(model, test_div);
+    var view = d3mvc.make_view(model, test_div);
     return [view, model];
 }
 
