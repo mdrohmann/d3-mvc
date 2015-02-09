@@ -30,7 +30,7 @@ var no_model = [];
 
 function default_init(model) {
     var test_div = global_window.document.getElementById('test');
-    view = d3mvc.make_view(model, test_div);
+    var view = d3mvc.make_view(model, test_div);
     return [view, model];
 }
 
@@ -53,9 +53,9 @@ describe('d3mvc', function() {
                 var new_model = [{}, {"name": "very long name", "xdesc": "other_x"}];
                 view.update(new_model)
                     .display();
-                var new_lbbox = legend_plus_box.getBBox();
+                var new_lbbox = legend_plus_box[0].getBBox();
                 var new_height = new_lbbox.height;
-                expect(new_height).to.be.greater.than(old_height);
+                expect(new_height).to.be.greaterThan(old_height);
                 done();
             });
         });
