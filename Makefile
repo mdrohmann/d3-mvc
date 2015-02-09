@@ -1,4 +1,4 @@
-.PHONY: all test test-xml test-coverage docs
+.PHONY: all test test-xml test-coverage test-nocolor docs publish
 
 BUNDLE_SOURCES = src/*.js src/*/*.js
 
@@ -33,3 +33,6 @@ test-xml:
 
 test-coverage:
 	istanbul cover --report cobertura _mocha -- --reporter spec 'test/**/*.test.js'
+
+publish: bundle.js dist/d3mvc.min.js
+	npm publish
