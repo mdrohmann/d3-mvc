@@ -11,3 +11,4 @@
 bundle.js
 test/browser.bundle.js
 tests.xml
+dist/
