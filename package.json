@@ -7,8 +7,12 @@
   }],
   "name": "d3mvc",
   "description": "Simple and concise Model-view implementation for charts in d3",
-  "version": "0.2.1",
-  "main": "./bundle.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdrohmann/d3mvc.git"
+  },
+  "version": "0.2.2",
+  "main": "bundle.js",
   "browserify": {
     "transform": [
       "browserify-shim"
