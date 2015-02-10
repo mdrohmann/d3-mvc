@@ -1,8 +1,11 @@
-.PHONY: all test test-xml test-coverage test-nocolor docs publish
+.PHONY: all test test-xml test-coverage test-nocolor docs publish clean
 
 BUNDLE_SOURCES = src/*.js src/*/*.js
 
 all: bundle.js dist/d3mvc.js dist/d3mvc.min.js
+
+clean:
+	rm -rf bundle.js dist/*.js html/static/build/js/test.js test/browser.bundle.js tests.xml
 
 docs:
 	make -C docs/ html
