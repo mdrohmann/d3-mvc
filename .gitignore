@@ -12,3 +12,4 @@ bundle.js
 test/browser.bundle.js
 tests.xml
 dist/
+html/static/build/js/test.js

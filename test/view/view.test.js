@@ -94,7 +94,7 @@ describe('d3mvc', function() {
             var title_dom = global_window.document.querySelectorAll(
                 ".x.axis");
             expect(title_dom).to.have.length(1);
-            expect(title_dom[0].querySelector('.label').innerHTML).to.eql('X axis');
+            expect(title_dom[0].querySelector('.label').textContent).to.eql('X axis');
             done();
         });
         it('should create a given y axis title', function(done) {
@@ -104,7 +104,7 @@ describe('d3mvc', function() {
             var title_dom = global_window.document.querySelectorAll(
                 ".y.axis");
             expect(title_dom).to.have.length(1);
-            expect(title_dom[0].querySelector('.label').innerHTML).to.eql('Y axis');
+            expect(title_dom[0].querySelector('.label').textContent).to.eql('Y axis');
             done();
         });
         it('should create a default x title', function(done) {
@@ -115,7 +115,7 @@ describe('d3mvc', function() {
             var title_dom = global_window.document.querySelectorAll(
                 ".x.axis");
             expect(title_dom).to.have.length(1);
-            expect(title_dom[0].querySelector('.label').innerHTML).to.eql('x');
+            expect(title_dom[0].querySelector('.label').textContent).to.eql('x');
             done();
         });
         it('should work with empty model', function(done) {
@@ -126,7 +126,7 @@ describe('d3mvc', function() {
             var title_dom = global_window.document.querySelectorAll(
                 ".x.axis");
             expect(title_dom).to.have.length(1);
-            expect(title_dom[0].querySelector('.label').innerHTML).to.eql('x');
+            expect(title_dom[0].querySelector('.label').textContent).to.eql('x');
             expect(view.axis.margin()).to.eql({'top': 10, 'bottom': 50, 'left': 60, 'right': 10});
             done();
         });
@@ -138,8 +138,8 @@ describe('d3mvc', function() {
             var title_dom = global_window.document.querySelectorAll(
                 ".x.axis");
             expect(title_dom).to.have.length(2);
-            expect(title_dom[0].querySelector('.label').innerHTML).to.eql('x');
-            expect(title_dom[1].querySelector('.label').innerHTML).to.eql('other_x');
+            expect(title_dom[0].querySelector('.label').textContent).to.eql('x');
+            expect(title_dom[1].querySelector('.label').textContent).to.eql('other_x');
             var ytitle_dom = global_window.document.querySelectorAll(
                 ".y.axis");
             expect(ytitle_dom).to.have.length(1);
@@ -158,8 +158,8 @@ describe('d3mvc', function() {
             var title_dom = global_window.document.querySelectorAll(
                 ".y.axis");
             expect(title_dom).to.have.length(2);
-            expect(title_dom[0].querySelector('.label').innerHTML).to.eql('y');
-            expect(title_dom[1].querySelector('.label').innerHTML).to.eql('other_y');
+            expect(title_dom[0].querySelector('.label').textContent).to.eql('y');
+            expect(title_dom[1].querySelector('.label').textContent).to.eql('other_y');
             var xtitle_dom = global_window.document.querySelectorAll(
                 ".x.axis");
             expect(xtitle_dom).to.have.length(1);
@@ -178,8 +178,8 @@ describe('d3mvc', function() {
             var title_dom = global_window.document.querySelectorAll(
                 ".x.axis");
             expect(title_dom).to.have.length(2);
-            expect(title_dom[0].querySelector('.label').innerHTML).to.eql('x');
-            expect(title_dom[1].querySelector('.label').innerHTML).to.eql('other_x');
+            expect(title_dom[0].querySelector('.label').textContent).to.eql('x');
+            expect(title_dom[1].querySelector('.label').textContent).to.eql('other_x');
             var xtitle_dom = global_window.document.querySelectorAll(
                 ".y.axis");
             expect(xtitle_dom).to.have.length(2);

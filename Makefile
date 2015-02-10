@@ -17,22 +17,27 @@ dist/d3mvc.min.js: bundle.js
 	mkdir -p ./dist; ./bin/uglify $< -c -m > $@
 
 test/browser.bundle.js: test/browsertest.js test/*/*.test.js $(BUNDLE_SOURCES)
-	browserify $< -o $@
+	browserify $< -o $@ --verbose -d
+#	browserify -r handlebars:hbsfy/runtime $< -o $@ --verbose -d
 
 browsertest: test/browser.bundle.js
 	firefox test/test.index.html
 
-test:
-	mocha --ui exports --reporter spec 'test/**/*.test.js'
+html/static/build/js/test.js: test/browsertest.js
+	mkdir -p html/static/build/js/ && browserify -t [ browserify-istanbul --ignore **/*.hbs **/bower_components/** ] $< -o html/static/build/js/test.js -d
 
-test-nocolor:
-	mocha --ui exports -C --reporter min 'test/**/*.test.js'
+test: html/static/build/js/phantomjs.test.html html/static/build/js/test.js
+	bin/mocha-phantomjs $< --hooks test/phantom_hooks.js
+	#mocha --ui bdd --reporter spec 'test/**/*.test.js'
 
-test-xml:
-	mocha --ui exports --reporter xunit 'test/**/*.test.js' > tests.xml
+test-nocolor: html/static/build/js/phantomjs-nocolor.test.html html/static/build/js/test.js
+	bin/mocha-phantomjs --reporter spec -C $< --hooks test/phantom_hooks.js
+
+test-xml: html/static/build/js/phantomjs-xml.test.html html/static/build/js/test.js
+	bin/mocha-phantomjs --reporter xunit -C $< --hooks test/phantom_hooks.js > tests.xml
 
 test-coverage:
-	istanbul cover --report cobertura _mocha -- --reporter spec 'test/**/*.test.js'
+	istanbul report cobertura --root coverage
 
 publish: bundle.js dist/d3mvc.min.js
 	npm publish

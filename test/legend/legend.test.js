@@ -47,7 +47,6 @@ describe('d3mvc', function() {
                     .display();
                 var legend_plus_box = global_window.document.querySelectorAll(
                     ".legend_with_box");
-                console.log(legend_plus_box[0]);
                 var old_lbbox = legend_plus_box[0].getBBox();
                 var old_height = old_lbbox.height;
                 var new_model = [{}, {"name": "very long name", "xdesc": "other_x"}];
